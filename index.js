@@ -1,4 +1,15 @@
+var count = 0;
 const generatePDF = async(name, college, position, event) => {
+    
+    let main = document.querySelector('.main');
+    if(count === 0) {
+        var h1 = document.createElement('H2');
+        var t1 = document.createTextNode("Loading your Certificate");
+        h1.appendChild(t1);
+        main.appendChild(h1);
+        count = count + 1;
+    }
+
     const {PDFDocument, rgb} = PDFLib;
 
     const exBytes = await fetch("./cert1.pdf").then((res) => {
@@ -22,51 +33,73 @@ const generatePDF = async(name, college, position, event) => {
     const pages = pdfDoc.getPages();
     const firstPg = pages[0];
 
-    firstPg.drawText(name, {
-        size: 48,
-        x: 370 - ((name.length > 10) ? (name.length * 12): (name.length*11)),
-        y: 330,
-        color: rgb(0.19, 0.53, 0.66),
-        font: myFont
-    });
+    if(name != null) {
+        firstPg.drawText(name, {
+            size: 48,
+            x: 370 - ((name.length > 10) ? (name.length * 12): (name.length*11)),
+            y: 330,
+            color: rgb(0.19, 0.53, 0.66),
+            font: myFont
+    });}
 
-    firstPg.drawText(college, {
-        size: 21,
-        x: 400 - ((college.length > 10) ? (college.length * 5): (college.length*10)),
-        y: 253,
-        color: rgb(0.19, 0.53, 0.66),
-        font: myFont1
-    });
+    if(college != null) {
+        firstPg.drawText(college, {
+            size: 21,
+            x: 400 - ((college.length > 10) ? (college.length * 5): (college.length*10)),
+            y: 253,
+            color: rgb(0.19, 0.53, 0.66),
+            font: myFont1
+    });}
 
-    firstPg.drawText(position, {
-        size: 21,
-        x: 240,
-        y: 227,
-        color: rgb(0.19, 0.53, 0.66),
-        font: myFont1
-    });
+    if(position != null) {
+        firstPg.drawText(position, {
+            size: 21,
+            x: 240,
+            y: 227,
+            color: rgb(0.19, 0.53, 0.66),
+            font: myFont1
+    });}
 
-    firstPg.drawText(event, {
-        size: 21,
-        x: 455 - ((event.length > 10) ? (event.length * 3): (event.length*4)),
-        y: 227,
-        color: rgb(0.19, 0.53, 0.66),
-        font: myFont1
-    });
+    if(event != null) {
+        firstPg.drawText(event, {
+            size: 21,
+            x: 455 - ((event.length > 10) ? (event.length * 3): (event.length*4)),
+            y: 227,
+            color: rgb(0.19, 0.53, 0.66),
+            font: myFont1
+    });}
 
     const uri = await pdfDoc.saveAsBase64({dataUri: true});
 
-    let main = document.querySelector('.main');
-    var iframe = document.createElement('iframe');
-    iframe.src = uri;
-    iframe.width = 600;
-    iframe.height = 350;
-    main.appendChild(iframe);
+    // var iframe = document.createElement('iframe');
+    // iframe.src = uri;
+    // iframe.width = 600;
+    // iframe.height = 350;
+    // main.appendChild(iframe);
+
+    var h = document.createElement('H2');
+    var t = document.createTextNode(event + " Certificate");
+    h.appendChild(t);
+    if(count === 1) {
+        main.removeChild(main.lastElementChild);
+    }
+    main.appendChild(h);
+    var elem = document.createElement("img");
+    elem.setAttribute("src", "https://thumbs.dreamstime.com/b/download-vector-icon-install-symbol-modern-simple-flat-vector-illustration-download-vector-icon-install-symbol-modern-simple-flat-120287077.jpg");
+    elem.setAttribute("height", "50");
+    elem.setAttribute("width", "50");
+    var anchor = document.createElement('a');
+	anchor.href = uri;
+    anchor.download = event + " Certificate.pdf";
+	anchor.appendChild(elem);
+    main.appendChild(anchor);
+    var enter = document.createElement('br');
+    main.appendChild(enter);
 }
 
 const addText = (text) => {
     let main = document.querySelector('.main');
-    var h = document.createElement('H3');
+    var h = document.createElement('H2');
     var t = document.createTextNode(text);
     h.appendChild(t);
     main.appendChild(h);
@@ -86,8 +119,7 @@ const checkCertificate = async (ragamID) => {
         addText("User not found");
         return;
     }
-
-
+    count = 0;
     for(i=0; i<user.length; i++) {
         for(j=0; j<user[i].events.length; j++) {
             if(user[i].events[j].hasCertificate) {
@@ -98,7 +130,7 @@ const checkCertificate = async (ragamID) => {
             }
         }
         if(j === 0) {
-            addText("No Certificates for this user");
+            addText("No Certificates Available");
         }
     }    
 }
@@ -176,4 +208,3 @@ button.addEventListener("click", function(e) {
     e.preventDefault();
     checkCertificate(ragamID.value); // Get the value here.
 }, false);
-// button.onclick = generatePDF("Nazim", "NITC", "1st", "Chess");
