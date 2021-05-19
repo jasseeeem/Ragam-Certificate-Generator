@@ -85,7 +85,7 @@ const generatePDF = async(name, college, position, event) => {
     }
     main.appendChild(h);
     var elem = document.createElement("img");
-    elem.setAttribute("src", "https://thumbs.dreamstime.com/b/download-vector-icon-install-symbol-modern-simple-flat-vector-illustration-download-vector-icon-install-symbol-modern-simple-flat-120287077.jpg");
+    elem.setAttribute("src", "./download.jpg");
     elem.setAttribute("height", "50");
     elem.setAttribute("width", "50");
     var anchor = document.createElement('a');
