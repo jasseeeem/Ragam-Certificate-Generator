@@ -91,7 +91,6 @@ const checkCertificate = async (ragamID) => {
     for(i=0; i<user.length; i++) {
         for(j=0; j<user[i].events.length; j++) {
             if(user[i].events[j].hasCertificate) {
-                console.log("Certificate Present for event " + user[i].events[j].name);
                 generatePDF(user[i].name, user[i].college, user[i].events[j].status, user[i].events[j].name);
             }
             else {
