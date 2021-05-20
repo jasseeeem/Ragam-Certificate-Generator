@@ -81,6 +81,8 @@ const addLink = (id, text) => {
 	anchor.setAttribute('href', '/event.html?id=' + id + "&name=" + text.replace(/ /g,'').toLowerCase());
     anchor.appendChild(h);
     main.appendChild(anchor);
+    var enter = document.createElement('br');
+    main.appendChild(enter);
 }
 
 const checkUser = async (ragamID) => {
