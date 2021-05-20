@@ -1,28 +1,3 @@
-const addText = (text) => {
-    let main = document.querySelector('.main');
-    var h = document.createElement('H2');
-    var t = document.createTextNode(text);
-    h.appendChild(t);
-    main.appendChild(h);
-}
-
-const checkUser = async (ragamID) => {
-
-    let main = document.querySelector('.main');
-    main.innerHTML = '';
-
-    try {
-        user = await fetch("./ragam-users/" + MD5(ragamID) + ".json").then((res) => {
-            return res.json();
-        });
-    }
-    catch(e) {
-        addText("User not found");
-        return null;
-    }
-    return user;
-}
-
 MD5 = function(e) {
     function h(a, b) {
         var c, d, e, f, g;
@@ -89,42 +64,58 @@ MD5 = function(e) {
     return (p(a) + p(b) + p(c) + p(d)).toLowerCase()
 };
 
-const addLink = (id) => {
+const addText = (text) => {
     let main = document.querySelector('.main');
     var h = document.createElement('H2');
-    var t = document.createTextNode(id);
+    var t = document.createTextNode(text);
     h.appendChild(t);
-    var anchor = document.createElement('a');
-	anchor.setAttribute('href', '/user.html?id=' + id);
-    anchor.appendChild(h);
-    main.appendChild(anchor);
-    var enter = document.createElement('br');
-    main.appendChild(enter);
+    main.appendChild(h);
 }
 
-var button = document.getElementById('button')
-var ragamID = document.getElementById("RagamID"); // Get only the element.
+const addLink = (id, text) => {
+    let main = document.querySelector('.main');
+    var h = document.createElement('H2');
+    var t = document.createTextNode(text);
+    h.appendChild(t);
+    var anchor = document.createElement('a');
+	anchor.setAttribute('href', '/event.html?id=' + id + "&name=" + text.replace(/ /g,'').toLowerCase());
+    anchor.appendChild(h);
+    main.appendChild(anchor);
+}
 
-button.addEventListener("click", function(e) {
-    e.preventDefault();
-    const route = ragamID.value;
-    if(route.length === 0){
-        alert("Enter your ID");
-        return;
+const checkUser = async (ragamID) => {
+
+    try {
+        user = await fetch("./ragam-users/" + MD5(ragamID) + ".json").then((res) => {
+            return res.json();
+        });
     }
-    const user = checkUser(route).then(user => {
+    catch(e) {
+        addText("User not found");
+        return null;
+    }
+    return user;
+}
+
+window.onload = (e) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const user = checkUser(id).then(user => {
         if(user) {
-            const route = user[0].ragamId;
-            if(user.length < 2) {
-                window.location.href = '/user.html?id=' + route;
-            }
-            else {
-                addText("Select your Ragam ID");
-                for(i=0; i<user.length; i++) {
-                    addLink(user[i].ragamId);
+            for(i=0; i<user.length; i++) {
+                for(j=0; j<user[i].events.length; j++) {
+                    addLink(id, user[i].events[j].name);
                 }
-            }
+                if(j==0) {
+                    addText("No events");
+                }
+            }    
         }
+        // else {
+        //     addText("User Not Found");
+        // }
     });
-    
-}, false);
+}
+
+
+
