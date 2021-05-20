@@ -1,4 +1,4 @@
-const base = "Ragam-Certificate-Generator/"
+const base = ""
 
 const addText = (text) => {
     let main = document.querySelector('.main');
