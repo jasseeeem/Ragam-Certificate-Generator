@@ -107,9 +107,6 @@ input {
   max-width: 100%;
   transform: translateX(-5px);
 }
-.main {
-  transform: translateX(-5px);
-}
 a{
   text-decoration: none;
   border: 2px solid black;
