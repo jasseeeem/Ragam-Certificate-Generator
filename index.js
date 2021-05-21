@@ -1,4 +1,4 @@
-const base = "ab"
+const base = "/"
 
 const addText = (text) => {
     let main = document.querySelector('.main');
@@ -97,7 +97,7 @@ const addLink = (id) => {
     var t = document.createTextNode(id);
     h.appendChild(t);
     var anchor = document.createElement('a');
-	anchor.setAttribute('href', base + '/user.html?id=' + id);
+	anchor.setAttribute('href', base + 'user.html?id=' + id);
     anchor.appendChild(h);
     main.appendChild(anchor);
     var enter = document.createElement('br');
@@ -118,7 +118,7 @@ button.addEventListener("click", function(e) {
         if(user) {
             const route = user[0].ragamId;
             if(user.length < 2) {
-                window.location.href = base + '/user.html?id=' + route;
+                window.location.href = base + 'user.html?id=' + route;
             }
             else {
                 addText("Select your Ragam ID");
