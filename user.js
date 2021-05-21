@@ -1,4 +1,4 @@
-const base = ""
+const base = "ab"
 
 MD5 = function(e) {
     function h(a, b) {

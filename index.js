@@ -1,4 +1,4 @@
-const base = ""
+const base = "ab"
 
 const addText = (text) => {
     let main = document.querySelector('.main');
