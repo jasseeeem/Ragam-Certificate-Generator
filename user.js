@@ -1,4 +1,4 @@
-const base = "/"
+const base = "/Ragam-Certificate-Generator"
 
 MD5 = function(e) {
     function h(a, b) {
