@@ -80,7 +80,7 @@ const addLink = (id, text) => {
     var t = document.createTextNode(text);
     h.appendChild(t);
     var anchor = document.createElement('a');
-	anchor.setAttribute('href', base + 'event.html?id=' + id + "&name=" + text.replace(/ /g,'').toLowerCase());
+	anchor.setAttribute('href', base + '/event.html?id=' + id + "&name=" + text.replace(/ /g,'').toLowerCase());
     anchor.appendChild(h);
     main.appendChild(anchor);
     var enter = document.createElement('br');
