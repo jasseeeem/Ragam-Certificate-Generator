@@ -1,3 +1,6 @@
+// const base = "/Ragam-Certificate-Generator"
+const base =""
+
 MD5 = function(e) {
     function h(a, b) {
         var c, d, e, f, g;
@@ -72,89 +75,21 @@ const addText = (text) => {
     main.appendChild(h);
 }
 
-const generatePDF = async(name, college, position, event) => {
+const addLink = (id, text) => {
     let main = document.querySelector('.main');
-
-    const {PDFDocument, rgb} = PDFLib;
-
-    const exBytes = await fetch("./cert1.pdf").then((res) => {
-        return res.arrayBuffer();
-    });
-
-    const exFont = await fetch("./Parisienne-Regular.ttf").then((res) => {
-        return res.arrayBuffer();
-    });
-
-    const exFont1 = await fetch("./Poppins-Medium.ttf").then((res) => {
-        return res.arrayBuffer();
-    });
-    
-    const pdfDoc = await PDFDocument.load(exBytes);
-
-    pdfDoc.registerFontkit(fontkit);
-    const myFont = await pdfDoc.embedFont(exFont);
-    const myFont1 = await pdfDoc.embedFont(exFont1);
-
-    const pages = pdfDoc.getPages();
-    const firstPg = pages[0];
-
-    if(name != null) {
-        firstPg.drawText(name, {
-            size: 48,
-            x: 370 - ((name.length > 10) ? (name.length * 12): (name.length*11)),
-            y: 330,
-            color: rgb(0.19, 0.53, 0.66),
-            font: myFont
-    });}
-
-    if(college != null) {
-        firstPg.drawText(college, {
-            size: 21,
-            x: 400 - ((college.length > 10) ? (college.length * 5): (college.length*10)),
-            y: 253,
-            color: rgb(0.19, 0.53, 0.66),
-            font: myFont1
-    });}
-
-    if(position != null) {
-        firstPg.drawText(position, {
-            size: 21,
-            x: 240,
-            y: 227,
-            color: rgb(0.19, 0.53, 0.66),
-            font: myFont1
-    });}
-
-    if(event != null) {
-        firstPg.drawText(event, {
-            size: 21,
-            x: 455 - ((event.length > 10) ? (event.length * 3): (event.length*4)),
-            y: 227,
-            color: rgb(0.19, 0.53, 0.66),
-            font: myFont1
-    });}
-
-    const uri = await pdfDoc.saveAsBase64({dataUri: true});
-
     var h = document.createElement('H2');
-    var t = document.createTextNode(event + " Certificate");
+    var t = document.createTextNode(text);
     h.appendChild(t);
-    main.removeChild(main.lastElementChild);
-    main.appendChild(h);
-    var elem = document.createElement("img");
-    elem.setAttribute("src", "./download.jpg");
-    elem.setAttribute("height", "50");
-    elem.setAttribute("width", "50");
     var anchor = document.createElement('a');
-	anchor.href = uri;
-    anchor.download = event + " Certificate.pdf";
-	anchor.appendChild(elem);
+	anchor.setAttribute('href', base + '/event.html?id=' + id + "&name=" + text.replace(/ /g,'').toLowerCase());
+    anchor.appendChild(h);
     main.appendChild(anchor);
     var enter = document.createElement('br');
     main.appendChild(enter);
 }
 
 const checkUser = async (ragamID) => {
+
     try {
         user = await fetch("./ragam-users/" + MD5(ragamID) + ".json").then((res) => {
             return res.json();
@@ -170,29 +105,14 @@ const checkUser = async (ragamID) => {
 window.onload = (e) => {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
-    const name = urlParams.get('name');
     const user = checkUser(id).then(user => {
         if(user) {
-            let main = document.querySelector('.main');
-            var h1 = document.createElement('H2');
-            var t1 = document.createTextNode("Loading your Certificate");
-            h1.appendChild(t1);
-            main.appendChild(h1);
             for(i=0; i<user.length; i++) {
                 for(j=0; j<user[i].events.length; j++) {
-                    if(user[i].events[j].name.replace(/ /g,'').toLowerCase() === name) {
-                        if(user[i].events[j].hasCertificate) {
-                            generatePDF(user[i].name, user[i].college, user[i].events[j].status, user[i].events[j].name);
-                        }
-                        else {
-                            main.removeChild(main.lastElementChild);
-                            addText("No Certificate for " + user[i].events[j].name);
-                        }
-                    }
+                    addLink(id, user[i].events[j].name);
                 }
-                if(j === 0) {
-                    main.removeChild(main.lastElementChild);
-                    addText("No Certificates Available");
+                if(j==0) {
+                    addText("No events");
                 }
             }    
         }

@@ -1,4 +1,30 @@
-const base = "/Ragam-Certificate-Generator"
+// const base = "/Ragam-Certificate-Generator"
+const base =""
+
+const addText = (text) => {
+    let main = document.querySelector('.main');
+    var h = document.createElement('H2');
+    var t = document.createTextNode(text);
+    h.appendChild(t);
+    main.appendChild(h);
+}
+
+const checkUser = async (ragamID) => {
+
+    let main = document.querySelector('.main');
+    main.innerHTML = '';
+
+    try {
+        user = await fetch("./ragam-users/" + MD5(ragamID) + ".json").then((res) => {
+            return res.json();
+        });
+    }
+    catch(e) {
+        addText("User not found");
+        return null;
+    }
+    return user;
+}
 
 MD5 = function(e) {
     function h(a, b) {
@@ -66,57 +92,42 @@ MD5 = function(e) {
     return (p(a) + p(b) + p(c) + p(d)).toLowerCase()
 };
 
-const addText = (text) => {
+const addLink = (id) => {
     let main = document.querySelector('.main');
     var h = document.createElement('H2');
-    var t = document.createTextNode(text);
-    h.appendChild(t);
-    main.appendChild(h);
-}
-
-const addLink = (id, text) => {
-    let main = document.querySelector('.main');
-    var h = document.createElement('H2');
-    var t = document.createTextNode(text);
+    var t = document.createTextNode(id);
     h.appendChild(t);
     var anchor = document.createElement('a');
-	anchor.setAttribute('href', base + '/event.html?id=' + id + "&name=" + text.replace(/ /g,'').toLowerCase());
+	anchor.setAttribute('href', base + '/user.html?id=' + id);
     anchor.appendChild(h);
     main.appendChild(anchor);
     var enter = document.createElement('br');
     main.appendChild(enter);
 }
 
-const checkUser = async (ragamID) => {
+var button = document.getElementById('button')
+var ragamID = document.getElementById("RagamID"); // Get only the element.
 
-    try {
-        user = await fetch("./ragam-users/" + MD5(ragamID) + ".json").then((res) => {
-            return res.json();
-        });
+button.addEventListener("click", function(e) {
+    e.preventDefault();
+    const route = ragamID.value;
+    if(route.length === 0){
+        alert("Enter your ID");
+        return;
     }
-    catch(e) {
-        addText("User not found");
-        return null;
-    }
-    return user;
-}
-
-window.onload = (e) => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
-    const user = checkUser(id).then(user => {
+    const user = checkUser(route).then(user => {
         if(user) {
-            for(i=0; i<user.length; i++) {
-                for(j=0; j<user[i].events.length; j++) {
-                    addLink(id, user[i].events[j].name);
+            const route = user[0].ragamId;
+            if(user.length < 2) {
+                window.location.href = base + '/user.html?id=' + route;
+            }
+            else {
+                addText("Select your Ragam ID");
+                for(i=0; i<user.length; i++) {
+                    addLink(user[i].ragamId);
                 }
-                if(j==0) {
-                    addText("No events");
-                }
-            }    
+            }
         }
     });
-}
-
-
-
+    
+}, false);
