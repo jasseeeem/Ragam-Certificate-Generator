@@ -12,7 +12,19 @@
 	right: 0;
 	margin: auto;
 }
-
+*{
+  margin: 0;
+  padding: 0;
+}
+#vanta-canvas{
+  width: 100vw;
+  height: 100vh;
+}
+.Logos{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 .App1 {
   text-align: center;
   width: 100%;
@@ -58,7 +70,7 @@ body {
   height: 40px;
   padding: 3px 0px;
   font-size: 20px;
-  border-radius: 10px;
+  color: white;  
 }
 
 .container {
@@ -69,18 +81,25 @@ body {
   border-radius: 5px;
 }
 
+.textinput :focus{
+  background-color: white;
+}
 .btn {
   display: inline-block;
-  background: #000;
-  color: #fff;
-  border: none;
+  background: rgba(0,0,0,0.6);
+  color: #ffffff;
   padding: 10px 20px;
   margin: 5px;
-  border-radius: 5px;
+  border-radius: 0;
   cursor: pointer;
   text-decoration: none;
   font-size: 20px;
   font-family: 'Roboto', sans-serif;
+  box-shadow: 5px 5px rgba(0,0,0,0.6);
+}
+
+#button{
+  border: solid white 1px;
 }
 
 .btn:focus {
@@ -89,6 +108,9 @@ body {
 
 .btn:active {
   transform: scale(0.98);
+  /* background-color: black; */
+  border: solid rgba(255,255,255,0.5) 1px;
+  box-shadow: none;
 }
 
 .btn-block {
@@ -106,6 +128,28 @@ h1 {
 input {
   max-width: 100%;
   transform: translateX(-5px);
+  outline: none;
+}
+.title{
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#RagamID{
+  border-radius: 0;
+  /* border-radius: 10px; */
+  border: white solid;
+  border-width: 0 0 1px 0px;
+  background-color: rgba(0,0,0,0.5);
+}
+
+#RagamID :focus{
+  border-bottom: none;
+  outline: none;
+}
+#RagamId :active{
+  border-bottom: none;
+  outline: none;
 }
 a{
   text-decoration: none;

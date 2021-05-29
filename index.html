@@ -7,14 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <title>Ragam Certificates</title>
     <style>
-    *{
-        margin: 0;
-        padding: 0;
-    }
-    #vanta-canvas{
-        width: auto;
-        height: 100vh;
-    }
+    
     </style>
 </head>
 <body>
@@ -24,12 +17,16 @@
    
     <div id="vanta-canvas">
         <div class="App">
-            
-            <h1>Ragam Certificates</h1>
+            <div class="Logos">
+              <img src="/static/img/2Flame.png" style="height: 30vh; margin-top: -50px; margin-bottom: -50px;">
+              <!-- <img src="/static/img/tathva_black.png" style="height: 100px;"> -->
+   
+            </div>
+            <h1 class="title">Ragam Certificates</h1>
             <div>
                 <form class="search-form">
                     <div class='form-control'>
-                        <input type='text' id='RagamID' placeholder='Ragam ID / Mail ID / Phone No.'></input>
+                        <input class="textinput" type='text' id='RagamID' placeholder='Ragam ID / Mail ID / Phone No.'></input>
                         <input class='btn btn-block' type='submit' id='button' value='Search'></input>
                     </div>
                 </form>
