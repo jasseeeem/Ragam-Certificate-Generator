@@ -3,7 +3,7 @@ const base = "/Ragam-Certificate-Generator"
 
 const addText = (text) => {
     let main = document.querySelector('.main');
-    var h = document.createElement('H2');
+    var h = document.createElement('H3');
     var t = document.createTextNode(text);
     h.appendChild(t);
     main.appendChild(h);
@@ -94,7 +94,7 @@ MD5 = function(e) {
 
 const addLink = (id) => {
     let main = document.querySelector('.main');
-    var h = document.createElement('H2');
+    var h = document.createElement('H3');
     var t = document.createTextNode(id);
     h.appendChild(t);
     var anchor = document.createElement('a');
