@@ -81,11 +81,11 @@ const generatePDF = async(name, college, position, event) => {
         return res.arrayBuffer();
     });
 
-    const exFont = await fetch("./Parisienne-Regular.ttf").then((res) => {
+    const exFont = await fetch("./fonts/Parisienne-Regular.ttf").then((res) => {
         return res.arrayBuffer();
     });
 
-    const exFont1 = await fetch("./Poppins-Medium.ttf").then((res) => {
+    const exFont1 = await fetch("./fonts/Poppins-Medium.ttf").then((res) => {
         return res.arrayBuffer();
     });
     
@@ -142,9 +142,10 @@ const generatePDF = async(name, college, position, event) => {
     main.removeChild(main.lastElementChild);
     main.appendChild(h);
     var elem = document.createElement("img");
-    elem.setAttribute("src", "./static/img/download.jpg");
-    elem.setAttribute("height", "50");
-    elem.setAttribute("width", "50");
+    elem.setAttribute("src", "./static/img/download-icon.png");
+    elem.setAttribute("id", "download-button");
+    elem.setAttribute("height", "40");
+    elem.setAttribute("width", "40");
     var anchor = document.createElement('a');
 	anchor.href = uri;
     anchor.download = event + " Certificate.pdf";

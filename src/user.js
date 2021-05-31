@@ -1,5 +1,5 @@
-const base = "/Ragam-Certificate-Generator"
-// const base =""
+// const base = "/Ragam-Certificate-Generator"
+const base =""
 
 MD5 = function(e) {
     function h(a, b) {
