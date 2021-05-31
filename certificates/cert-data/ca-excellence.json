@@ -1,0 +1,36 @@
+{
+    "name": {
+        "fontName": "GreatVibes-Regular.ttf",
+        "fontSize": 27.71,
+        "fontColor": {
+          "r": 0,
+          "g": 0,
+          "b": 0
+        }
+      },
+      "paragraph": {
+        "fontName": "JosefinSans-Regular.ttf",
+        "fontSize": 10,
+        "fontColor": {
+          "r": 0,
+          "g": 0,
+          "b": 0
+        }
+      },
+    "organisation": {
+      "x": 120,
+      "y": 34
+    },
+    "position": {
+      "x": 120,
+      "y": 34
+    },
+    "event": {
+      "x": 120,
+      "y": 34
+    },
+    "qrCode": {
+      "x": 120,
+      "y": 34
+    }
+  }
