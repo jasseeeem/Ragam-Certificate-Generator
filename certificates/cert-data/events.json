@@ -12,7 +12,7 @@
       },
       "paragraph": {
         "fontName": "JosefinSans-Regular.ttf",
-        "fontSize": 18,
+        "fontSize":19,
         "fontColor": {
           "r": 0,
           "g": 0,
@@ -24,12 +24,12 @@
       "y": 263
     },
     "position": {
-      "x": 257,
-      "y": 238
+      "x": 256,
+      "y": 239
     },
     "event": {
       "x": 520,
-      "y": 238
+      "y": 239
     },
     "qrCode": {
       "x": 120,

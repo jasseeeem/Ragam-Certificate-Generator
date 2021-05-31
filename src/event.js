@@ -202,11 +202,15 @@ const generatePDF = async (name, college, position, event, eventName) => {
           return res.arrayBuffer();
         });
 
-  const exFont = await fetch("./fonts/" + certificate.name.fontName).then((res) => {
-    return res.arrayBuffer();
-  });
+  const exFont = await fetch("./fonts/" + certificate.name.fontName).then(
+    (res) => {
+      return res.arrayBuffer();
+    }
+  );
 
-  const exFontSub = await fetch("./fonts/" + certificate.paragraph.fontName).then((res) => {
+  const exFontSub = await fetch(
+    "./fonts/" + certificate.paragraph.fontName
+  ).then((res) => {
     return res.arrayBuffer();
   });
 
@@ -228,7 +232,7 @@ const generatePDF = async (name, college, position, event, eventName) => {
   if (name != null) {
     firstPg.drawText(name, {
       size: certificate.name.fontSize,
-      x: certificate.name.x,
+      x: certificate.name.x - 0.2 * certificate.name.fontSize * name.length,
       y: certificate.name.y,
       color: rgb(
         certificate.paragraph.fontColor.r,
@@ -244,7 +248,7 @@ const generatePDF = async (name, college, position, event, eventName) => {
       size: certificate.paragraph.fontSize,
       x:
         certificate.organisation.x -
-        college.length * 0.25 * certificate.paragraph.fontSize,
+        college.length * 0.22 * certificate.paragraph.fontSize,
       y: certificate.organisation.y,
       color: rgb(
         certificate.paragraph.fontColor.r,
@@ -269,12 +273,12 @@ const generatePDF = async (name, college, position, event, eventName) => {
     });
   }
 
-  if (event != null) {
+  if (event != null && eventName !== "ragnarok") {
     firstPg.drawText(event, {
       size: certificate.paragraph.fontSize,
       x:
         certificate.event.x -
-        event.length * 0.25 * certificate.paragraph.fontSize,
+        event.length * 0.22 * certificate.paragraph.fontSize,
       y: certificate.event.y,
       color: rgb(
         certificate.paragraph.fontColor.r,
