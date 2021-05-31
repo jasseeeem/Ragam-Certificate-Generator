@@ -72,20 +72,20 @@ const addText = (text) => {
     main.appendChild(h);
 }
 
-const generatePDF = async(name, college, position, event) => {
+const generatePDF = async(name, college, position, event, eventName) => {
     let main = document.querySelector('.main');
 
     const {PDFDocument, rgb} = PDFLib;
-
-    const exBytes = await fetch("./certificates/cert1.pdf").then((res) => {
-        return res.arrayBuffer();
-    });
+    const exBytes = (eventName === "ragnarok") ? await fetch("./certificates/cert-pdf/ragnarok.pdf").then((res) => {
+        return res.arrayBuffer();}) : await fetch("./certificates/cert-pdf/events.pdf").then((res) => {
+            return res.arrayBuffer();
+        });
 
     const exFont = await fetch("./fonts/Parisienne-Regular.ttf").then((res) => {
         return res.arrayBuffer();
     });
 
-    const exFont1 = await fetch("./fonts/Poppins-Medium.ttf").then((res) => {
+    const exFontSub = await fetch("./fonts/Poppins-Medium.ttf").then((res) => {
         return res.arrayBuffer();
     });
     
@@ -93,46 +93,53 @@ const generatePDF = async(name, college, position, event) => {
 
     pdfDoc.registerFontkit(fontkit);
     const myFont = await pdfDoc.embedFont(exFont);
-    const myFont1 = await pdfDoc.embedFont(exFont1);
+    const myFont1 = await pdfDoc.embedFont(exFontSub);
 
     const pages = pdfDoc.getPages();
     const firstPg = pages[0];
 
-    if(name != null) {
-        firstPg.drawText(name, {
-            size: 48,
-            x: 370 - ((name.length > 10) ? (name.length * 12): (name.length*11)),
-            y: 330,
-            color: rgb(0.19, 0.53, 0.66),
-            font: myFont
-    });}
+    certificate = (name === "ragnarok")? await fetch("./certificates/cert-data/ragnarok.json").then((res) => {
+        return res.json();
+    }) : await fetch("./certificates/cert-data/events.json").then((res) => {
+        return res.json();
+    }); 
+    // console.log(certificate);
 
-    if(college != null) {
-        firstPg.drawText(college, {
-            size: 21,
-            x: 400 - ((college.length > 10) ? (college.length * 5): (college.length*10)),
-            y: 253,
-            color: rgb(0.19, 0.53, 0.66),
-            font: myFont1
-    });}
+    // if(name != null) {
+    //     firstPg.drawText(name, {
+    //         size: 48,
+    //         x: 370 - ((name.length > 10) ? (name.length * 12): (name.length*11)),
+    //         y: 330,
+    //         color: rgb(0.19, 0.53, 0.66),
+    //         font: myFont
+    // });}
 
-    if(position != null) {
-        firstPg.drawText(position, {
-            size: 21,
-            x: 240,
-            y: 227,
-            color: rgb(0.19, 0.53, 0.66),
-            font: myFont1
-    });}
+    // if(college != null) {
+    //     firstPg.drawText(college, {
+    //         size: 21,
+    //         x: 400 - ((college.length > 10) ? (college.length * 5): (college.length*10)),
+    //         y: 253,
+    //         color: rgb(0.19, 0.53, 0.66),
+    //         font: myFont1
+    // });}
 
-    if(event != null) {
-        firstPg.drawText(event, {
-            size: 21,
-            x: 455 - ((event.length > 10) ? (event.length * 3): (event.length*4)),
-            y: 227,
-            color: rgb(0.19, 0.53, 0.66),
-            font: myFont1
-    });}
+    // if(position != null) {
+    //     firstPg.drawText(position, {
+    //         size: 21,
+    //         x: 240,
+    //         y: 227,
+    //         color: rgb(0.19, 0.53, 0.66),
+    //         font: myFont1
+    // });}
+
+    // if(event != null) {
+    //     firstPg.drawText(event, {
+    //         size: 21,
+    //         x: 455 - ((event.length > 10) ? (event.length * 3): (event.length*4)),
+    //         y: 227,
+    //         color: rgb(0.19, 0.53, 0.66),
+    //         font: myFont1
+    // });}
 
     const uri = await pdfDoc.saveAsBase64({dataUri: true});
 
@@ -183,7 +190,7 @@ window.onload = (e) => {
                 for(j=0; j<user[i].events.length; j++) {
                     if(user[i].events[j].name.replace(/ /g,'').toLowerCase() === name) {
                         if(user[i].events[j].hasCertificate) {
-                            generatePDF(user[i].name, user[i].college, user[i].events[j].status, user[i].events[j].name);
+                            generatePDF(user[i].name, user[i].college, user[i].events[j].status, user[i].events[j].name, name);
                         }
                         else {
                             main.removeChild(main.lastElementChild);

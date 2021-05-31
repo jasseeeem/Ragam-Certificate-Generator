@@ -1,7 +1,7 @@
 {
     "name": {
       "fontName": "GreatVibes-Regular.ttf",
-      "fontSize": 27.71,
+      "fontSize": 10,
       "fontColor": {
         "r": 0,
         "g": 0,
@@ -10,7 +10,7 @@
     },
     "paragraph": {
       "fontName": "JosefinSans-Regular.ttf",
-      "fontSize": 10,
+      "fontSize": 8,
       "fontColor": {
         "r": 0,
         "g": 0,
