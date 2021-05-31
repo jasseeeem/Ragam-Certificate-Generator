@@ -1,16 +1,18 @@
 {
     "name": {
         "fontName": "GreatVibes-Regular.ttf",
-        "fontSize": 10,
+        "fontSize": 48,
         "fontColor": {
           "r": 0,
           "g": 0,
           "b": 0
-        }
+        },
+        "x": 400,
+        "y": 330
       },
       "paragraph": {
         "fontName": "JosefinSans-Regular.ttf",
-        "fontSize": 8,
+        "fontSize": 18,
         "fontColor": {
           "r": 0,
           "g": 0,
@@ -18,16 +20,16 @@
         }
       },
     "organisation": {
-      "x": 120,
-      "y": 34
+      "x": 450,
+      "y": 263
     },
     "position": {
-      "x": 120,
-      "y": 34
+      "x": 257,
+      "y": 238
     },
     "event": {
-      "x": 120,
-      "y": 34
+      "x": 520,
+      "y": 238
     },
     "qrCode": {
       "x": 120,
