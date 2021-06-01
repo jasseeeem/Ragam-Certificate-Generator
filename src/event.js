@@ -183,7 +183,7 @@ const generatePDF = async (name, college, position, event, eventName) => {
   let main = document.querySelector(".main");
 
   certificate =
-    name === "ragnarok"
+  eventName === "ragnarok"
       ? await fetch("./certificates/cert-data/ragnarok.json").then((res) => {
           return res.json();
         })
@@ -229,6 +229,7 @@ const generatePDF = async (name, college, position, event, eventName) => {
     Third: "3rd",
   };
 
+  name = "Muhammed Jaseem"
   if (name != null) {
     firstPg.drawText(name, {
       size: certificate.name.fontSize,
@@ -246,9 +247,7 @@ const generatePDF = async (name, college, position, event, eventName) => {
   if (college != null) {
     firstPg.drawText(college + " ,", {
       size: certificate.paragraph.fontSize,
-      x:
-        certificate.organisation.x -
-        college.length * 0.22 * certificate.paragraph.fontSize,
+      x: certificate.organisation.x - college.length * 0.22 * certificate.paragraph.fontSize,
       y: certificate.organisation.y,
       color: rgb(
         certificate.paragraph.fontColor.r,
@@ -276,9 +275,7 @@ const generatePDF = async (name, college, position, event, eventName) => {
   if (event != null && eventName !== "ragnarok") {
     firstPg.drawText(event, {
       size: certificate.paragraph.fontSize,
-      x:
-        certificate.event.x -
-        event.length * 0.22 * certificate.paragraph.fontSize,
+      x: certificate.event.x - event.length * 0.22 * certificate.paragraph.fontSize,
       y: certificate.event.y,
       color: rgb(
         certificate.paragraph.fontColor.r,
