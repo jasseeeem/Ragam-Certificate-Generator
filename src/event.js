@@ -229,11 +229,10 @@ const generatePDF = async (name, college, position, event, eventName) => {
     Third: "3rd",
   };
 
-  name = "Muhammed Jaseem"
   if (name != null) {
     firstPg.drawText(name, {
       size: certificate.name.fontSize,
-      x: certificate.name.x - 0.2 * certificate.name.fontSize * name.length,
+      x: certificate.name.x - 0.2 * certificate.name.fontSize * name.length - (eventName === "ragnarok" && name.length>10 ? name.length * 3: 0),
       y: certificate.name.y,
       color: rgb(
         certificate.paragraph.fontColor.r,
@@ -285,6 +284,31 @@ const generatePDF = async (name, college, position, event, eventName) => {
       font: myFontSub,
     });
   }
+
+  //Adding Image
+
+//   const pngUrl = 'https://pdf-lib.js.org/assets/minions_banana_alpha.png'
+//   const pngImageBytes = await fetch(pngUrl).then((res) => res.arrayBuffer())
+//   const pngImage = await pdfDoc.embedPng(pngImageBytes)
+//   const pngDims = pngImage.scale(0.5)
+
+  var qr = new QRious({
+      value: window.location.href,
+      foreground: certificate.qrCode.foreground,
+      background: certificate.qrCode.background
+
+  })
+  qr = qr.toDataURL();
+  const qrImage = await pdfDoc.embedPng(qr)
+
+  firstPg.drawImage(qrImage, {
+    x: certificate.qrCode.x,
+    y: certificate.qrCode.y,
+    width: 100,
+    height: 100,
+  })
+
+//   Adding image ends
 
   const uri = await pdfDoc.saveAsBase64({ dataUri: true });
 

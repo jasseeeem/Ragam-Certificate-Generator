@@ -32,7 +32,9 @@
       "y": 239
     },
     "qrCode": {
-      "x": 120,
-      "y": 34
+      "x": 375,
+      "y": 60,
+      "foreground": "#000000",
+      "background": "#ffffff"
     }
   }
