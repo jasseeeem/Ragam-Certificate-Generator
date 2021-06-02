@@ -285,13 +285,6 @@ const generatePDF = async (name, college, position, event, eventName) => {
     });
   }
 
-  //Adding Image
-
-//   const pngUrl = 'https://pdf-lib.js.org/assets/minions_banana_alpha.png'
-//   const pngImageBytes = await fetch(pngUrl).then((res) => res.arrayBuffer())
-//   const pngImage = await pdfDoc.embedPng(pngImageBytes)
-//   const pngDims = pngImage.scale(0.5)
-
   var qr = new QRious({
       value: window.location.href,
       foreground: certificate.qrCode.foreground,
@@ -348,7 +341,7 @@ const checkUser = async (ragamID) => {
 window.onload = (e) => {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
-  const name = urlParams.get("name");
+  const name = urlParams.get("event");
   const user = checkUser(id).then((user) => {
     if (user) {
       let main = document.querySelector(".main");
