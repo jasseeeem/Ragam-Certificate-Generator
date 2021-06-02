@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-// const base = "/Ragam-Certificate-Generator"
-const base =""
-=======
-const base = "Ragam-Certificate-Generator"
+const base = "/Ragam-Certificate-Generator"
 // const base =""
->>>>>>> d5714c64bc98d12b12738e0c1208ebdcc9c59721
 
 const addText = (text) => {
     let main = document.querySelector('.main');
