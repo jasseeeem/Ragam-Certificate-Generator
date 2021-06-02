@@ -18,25 +18,27 @@
         </style>
 </head>
 <body>
-    <div id="vanta-canvas">
-        <div class="App2">
-            <div style="margin-bottom: 50px;">
-                <h1>User Event</h1>
+
+        <div id="vanta-canvas">
+            <div class="App2">
+                <div style="margin-bottom: 50px;">
+                    <h1>User Event</h1>
+                </div>
+                
+                <main role="main" class="main">
+                </main>
             </div>
-            
-            <main role="main" class="main">
-            </main>
         </div>
-    </div>
+    
     <script src="src/event.js"></script>
 </body>
 
 <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.min.js" integrity="sha512-gQVBYBvfC+uyor5Teonjr9nmY1bN+DlOCezkhzg4ShpC5q81ogvFsr5IV4xXAj6HEtG7M1Pb2JCha97tVFItYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.trunk.min.js" integrity="sha512-WKGZ4lwjo3ZSZk9MppTAgaSeUz5+dF6SjTrMulCI3WBdEmIXBu+A4eVyTiCOmXCM0KU/sGJbMWfx35Fea/7x8w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.min.js" integrity="sha512-gQVBYBvfC+uyor5Teonjr9nmY1bN+DlOCezkhzg4ShpC5q81ogvFsr5IV4xXAj6HEtG7M1Pb2JCha97tVFItYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.trunk.min.js" integrity="sha512-WKGZ4lwjo3ZSZk9MppTAgaSeUz5+dF6SjTrMulCI3WBdEmIXBu+A4eVyTiCOmXCM0KU/sGJbMWfx35Fea/7x8w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>     -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-<script>
+<!-- <script>
     VANTA.TRUNK({
       el: "#vanta-canvas",
       mouseControls: true,
@@ -50,5 +52,22 @@
       spacing: 4.00,
       chaos: 6.00
     })
+    </script> -->
+    <script>
+        console.log("hihiii")
+        var foo= function(){
+            console.log("huhuuu")
+            if(window.innerWidth>600){
+                console.log("hahaa")
+                document.write('\x3Cscript src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.min.js" integrity="sha512-gQVBYBvfC+uyor5Teonjr9nmY1bN+DlOCezkhzg4ShpC5q81ogvFsr5IV4xXAj6HEtG7M1Pb2JCha97tVFItYQ==" crossorigin="anonymous" referrerpolicy="no-referrer">\x3C/script>')
+                document.write('\x3Cscript src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.trunk.min.js" integrity="sha512-WKGZ4lwjo3ZSZk9MppTAgaSeUz5+dF6SjTrMulCI3WBdEmIXBu+A4eVyTiCOmXCM0KU/sGJbMWfx35Fea/7x8w==" crossorigin="anonymous" referrerpolicy="no-referrer">\x3C/script>')
+                document.write('\x3Cscript>VANTA.TRUNK({el: "#vanta-canvas",mouseControls: true,touchControls: true,gyroControls: false,minHeight: 200.00,minWidth: 200.00,scale: 1.00,scaleMobile: 1.00,color:0x695810,spacing: 4.00,chaos: 6.00})\x3C/script>')
+            }
+            else
+            {
+                document.write('\x3Cdiv class="area" >\x3Cul class="circles">\x3Cli>\x3C/li>\x3Cli>\x3C/li>\x3Cli>\x3C/li>\x3Cli>\x3C/li>\x3Cli>\x3C/li>\x3Cli>\x3C/li>\x3Cli>\x3C/li>\x3Cli>\x3C/li>\x3Cli>\x3C/li>\x3Cli>\x3C/li>\x3C/ul>\x3C/div >')
+            }
+        };
+        foo();
     </script>
 </html>
