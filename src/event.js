@@ -175,11 +175,11 @@ const addText = (text) => {
   main.appendChild(h);
 };
 
-const generatePDF = async (name, college, position, event, eventName) => {
+const generatePDF = async (name, college, position, event, category, eventName) => {
   let main = document.querySelector(".main");
 
   certificate =
-  eventName === "ragnarok"
+  category === "Ragnarok"
       ? await fetch("./certificates/cert-data/ragnarok.json").then((res) => {
           return res.json();
         })
@@ -190,7 +190,7 @@ const generatePDF = async (name, college, position, event, eventName) => {
   const { PDFDocument, rgb } = PDFLib;
 
   const exBytes =
-    eventName === "ragnarok"
+    category === "Ragnarok"
       ? await fetch("./certificates/cert-pdf/ragnarok.pdf").then((res) => {
           return res.arrayBuffer();
         })
@@ -282,7 +282,7 @@ const generatePDF = async (name, college, position, event, eventName) => {
     });
   }
 
-  if (event != null && eventName !== "ragnarok") {
+  if (event != null) {
     event = event.replace("(H)", "(Hindi)");
     event = event.replace("(T)", "(Telugu)");
     event = event.replace("(M)", "(Malayalam)");
@@ -374,6 +374,7 @@ window.onload = (e) => {
                 user[i].college,
                 user[i].events[j].status,
                 user[i].events[j].name,
+                user[i].events[j].category,
                 name
               );
             } else {
