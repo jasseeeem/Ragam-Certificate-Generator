@@ -283,8 +283,11 @@ const generatePDF = async (name, college, position, event, eventName) => {
   }
 
   if (event != null && eventName !== "ragnarok") {
+    event = event.replace("(H)", "(Hindi)");
+    event = event.replace("(T)", "(Telugu)");
+    event = event.replace("(M)", "(Malayalam)");
+    event = event.replace("(E)", "(English)");
     event = event.replace(/\([A-Z]*\)/, "").trim();
-
     firstPg.drawText(event, {
       size: certificate.paragraph.fontSize,
       x: certificate.event.x - event.length * 0.22 * certificate.paragraph.fontSize,
