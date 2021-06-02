@@ -176,10 +176,6 @@ const addText = (text) => {
 };
 
 const generatePDF = async (name, college, position, event, eventName) => {
-  name = name.trim();
-  college = college.trim();
-  event = event.replace(/\([A-Z]*\)/, "").trim();
-
   let main = document.querySelector(".main");
 
   certificate =
@@ -238,6 +234,7 @@ const generatePDF = async (name, college, position, event, eventName) => {
   }
 
   if (name != null) {
+    name = name.trim();
     name = titleCase(name);
 
     firstPg.drawText(name, {
@@ -254,6 +251,8 @@ const generatePDF = async (name, college, position, event, eventName) => {
   }
 
   if (college != null) {
+    college = college.trim();
+
     firstPg.drawText(college + " ,", {
       size: certificate.paragraph.fontSize,
       x: certificate.organisation.x - college.length * 0.22 * certificate.paragraph.fontSize,
@@ -282,6 +281,8 @@ const generatePDF = async (name, college, position, event, eventName) => {
   }
 
   if (event != null && eventName !== "ragnarok") {
+    event = event.replace(/\([A-Z]*\)/, "").trim();
+    
     firstPg.drawText(event, {
       size: certificate.paragraph.fontSize,
       x: certificate.event.x - event.length * 0.22 * certificate.paragraph.fontSize,
