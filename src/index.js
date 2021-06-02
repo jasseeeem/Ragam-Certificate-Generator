@@ -98,7 +98,7 @@ const addLink = (id) => {
     var t = document.createTextNode(id);
     h.appendChild(t);
     var anchor = document.createElement('a');
-	anchor.setAttribute('href', base + '/user.html?id=' + id+"&category=others");
+	anchor.setAttribute('href', base + '/user.html?id=' + id+"&category=ragam21");
     anchor.appendChild(h);
     main.appendChild(anchor);
     var enter = document.createElement('br');
@@ -119,7 +119,7 @@ button.addEventListener("click", function(e) {
         if(user) {
             const route = user[0].ragamId;
             if(user.length < 2) {
-                window.location.href = base + '/user.html?id=' + route + "&category=others";
+                window.location.href = base + '/user.html?id=' + route + "&category=ragam21";
             }
             else {
                 addText("Select your Ragam ID");
