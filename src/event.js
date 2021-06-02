@@ -229,7 +229,17 @@ const generatePDF = async (name, college, position, event, eventName) => {
     Third: "3rd",
   };
 
+  const titleCase = (str) => {
+    str = str.toLowerCase().split(' ');
+    for (var i = 0; i < str.length; i++) {
+      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
+    }
+    return str.join(' ');
+  }
+
   if (name != null) {
+    name = titleCase(name);
+
     firstPg.drawText(name, {
       size: certificate.name.fontSize,
       x: certificate.name.x - 0.2 * certificate.name.fontSize * name.length - (eventName === "ragnarok" && name.length>10 ? name.length * 3: 0),
