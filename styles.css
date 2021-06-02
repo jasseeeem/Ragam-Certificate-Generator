@@ -187,7 +187,7 @@ a:active{
   width: auto;
 }
 
-#logo {
+#ragam-logo {
   height: 30vh; margin-top: -50px; margin-bottom: -50px;
 }
 @media only screen and (max-width: 600px) {
@@ -196,7 +196,7 @@ a:active{
     margin: 0px 20px;
   }
 
-  #logo {
+  #ragam-logo {
     height: auto;
     max-width:100%;
     width:100%;
