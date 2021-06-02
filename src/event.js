@@ -228,7 +228,9 @@ const generatePDF = async (name, college, position, event, eventName) => {
   const titleCase = (str) => {
     str = str.toLowerCase().split(' ');
     for (var i = 0; i < str.length; i++) {
-      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
+      if(str[i].length > 2) {
+        str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
+      }
     }
     return str.join(' ');
   }
@@ -282,7 +284,7 @@ const generatePDF = async (name, college, position, event, eventName) => {
 
   if (event != null && eventName !== "ragnarok") {
     event = event.replace(/\([A-Z]*\)/, "").trim();
-    
+
     firstPg.drawText(event, {
       size: certificate.paragraph.fontSize,
       x: certificate.event.x - event.length * 0.22 * certificate.paragraph.fontSize,
