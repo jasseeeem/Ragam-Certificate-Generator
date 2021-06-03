@@ -74,7 +74,9 @@ body {
 select{
   border: solid white 1.5px;
   background-color: rgba(0,0,0,0.5);
-  height: 30px;
+  height: 40px;
+  padding-left: 5px;
+  padding-bottom: 1px;
   outline:none;
   font-family: 'Roberto', sans-serif;
   font-size: 1.2em;
@@ -83,6 +85,7 @@ select{
   appearance:none; */
   box-shadow: 5px 5px rgba(0,0,0,0.6);
 }
+
 
 
 .form-control input {

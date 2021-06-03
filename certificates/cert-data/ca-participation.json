@@ -1,36 +1,40 @@
 {
-    "name": {
+  "name": {
       "fontName": "GreatVibes-Regular.ttf",
-      "fontSize": 10,
+      "fontSize": 48,
       "fontColor": {
-        "r": 0,
-        "g": 0,
-        "b": 0
-      }
+        "r": 0.105,
+        "g": 0.168,
+        "b": 0.247
+      },
+      "x": 400,
+      "y": 320
     },
     "paragraph": {
       "fontName": "JosefinSans-Regular.ttf",
-      "fontSize": 8,
+      "fontSize":19,
       "fontColor": {
-        "r": 0,
-        "g": 0,
-        "b": 0
+        "r": 0.105,
+        "g": 0.168,
+        "b": 0.247
       }
     },
-    "organisation": {
-      "x": 120,
-      "y": 34
-    },
-    "position": {
-      "x": 120,
-      "y": 34
-    },
-    "event": {
-      "x": 120,
-      "y": 34
-    },
-    "qrCode": {
-      "x": 120,
-      "y": 34
-    }
+  "organisation": {
+    "x": 450,
+    "y": 256
+  },
+  "position": {
+    "x": 256,
+    "y": 239
+  },
+  "event": {
+    "x": 520,
+    "y": 239
+  },
+  "qrCode": {
+    "x": 375,
+    "y": 50,
+    "foreground": "#000000",
+    "background": "#ffffff"
   }
+}

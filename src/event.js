@@ -175,6 +175,16 @@ const addText = (text) => {
   main.appendChild(h);
 };
 
+const titleCase = (str) => {
+  str = str.split(/[ ._]+/)
+  for (var i = 0; i < str.length; i++) {
+    if(str[i].length > 2) {
+      str[i] = str[i].toLowerCase().charAt(0).toUpperCase() + str[i].slice(1).toLowerCase(); 
+    }
+  }
+  return str.join(' ');
+}
+
 const generateRagamPDF = async (name, college, position, event, category, eventName) => {
   let main = document.querySelector(".main");
 
@@ -224,16 +234,6 @@ const generateRagamPDF = async (name, college, position, event, category, eventN
     Second: "2nd",
     Third: "3rd",
   };
-
-  const titleCase = (str) => {
-    str = str.split(/[ .]+/)
-    for (var i = 0; i < str.length; i++) {
-      if(str[i].length > 2) {
-        str[i] = str[i].toLowerCase().charAt(0).toUpperCase() + str[i].slice(1); 
-      }
-    }
-    return str.join(' ');
-  }
 
   if (name != null) {
     name = name.trim();
@@ -373,11 +373,10 @@ const checkCAUser = async (caID) => {
 }
 
 const generateCAPDF = async (name, college, position) => {
-  console.log(position);
   let main = document.querySelector(".main");
 
   certificate =
-  user.position <= 30 === "Ragnarok"
+  user.position <= 30 
       ? await fetch("./certificates/cert-data/ca-excellence.json").then((res) => {
           return res.json();
         })
@@ -386,9 +385,8 @@ const generateCAPDF = async (name, college, position) => {
         });
 
   const { PDFDocument, rgb } = PDFLib;
-
   const exBytes =
-  user.position <= 30 === "Ragnarok"
+  user.position <= 30
       ? await fetch("./certificates/cert-pdf/ca-excellence.pdf").then((res) => {
           return res.arrayBuffer();
         })
@@ -450,23 +448,14 @@ const generateCAPDF = async (name, college, position) => {
     30: "30th",
   };
 
-  const titleCase = (str) => {
-    str = str.split(/[ .]+/)
-    for (var i = 0; i < str.length; i++) {
-      if(str[i].length > 2) {
-        str[i] = str[i].toLowerCase().charAt(0).toUpperCase() + str[i].slice(1); 
-      }
-    }
-    return str.join(' ');
-  }
-
   if (name != null) {
     name = name.trim();
     name = titleCase(name);
+    console.log(name);
 
     firstPg.drawText(name, {
       size: certificate.name.fontSize,
-      x: certificate.name.x - 0.2 * certificate.name.fontSize * name.length - (eventName === "ragnarok" && name.length>10 ? name.length * 3: 0),
+      x: certificate.name.x - 0.2 * certificate.name.fontSize * name.length,
       y: certificate.name.y,
       color: rgb(
         certificate.paragraph.fontColor.r,
@@ -526,7 +515,7 @@ const generateCAPDF = async (name, college, position) => {
   const uri = await pdfDoc.saveAsBase64({ dataUri: true });
 
   var h = document.createElement("H2");
-  var t = document.createTextNode(event + " Certificate");
+  var t = document.createTextNode("Campus Ambassador Certificate");
   h.appendChild(t);
   main.removeChild(main.lastElementChild);
   main.appendChild(h);
@@ -587,17 +576,15 @@ window.onload = (e) => {
   else if(category === "ca21") {
     const user = checkCAUser(id).then((user) => {
       if (user) {
-        let main = document.querySelector(".main");
-        var h1 = document.createElement("H2");
-        var t1 = document.createTextNode("Loading your Certificate");
-        h1.appendChild(t1);
-        main.appendChild(h1);
-        if(user.position == -1) {
-          console.log("if");
+        if(user.position == -1 || user.position > 50) {
           addText("No Certificate Available");
         }
         else {
-          console.log("else");
+          let main = document.querySelector(".main");
+          var h1 = document.createElement("H2");
+          var t1 = document.createTextNode("Loading your Certificate");
+          h1.appendChild(t1);
+          main.appendChild(h1);
           generateCAPDF(user.name, user.college, user.position);
         }
       }
