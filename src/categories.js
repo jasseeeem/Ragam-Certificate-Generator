@@ -1,6 +1,48 @@
 // const base = "/Ragam-Certificate-Generator"
-// const base =""
-const base = "/certificates"
+const base =""
+// const base = "/certificates"
+
+const addText = (text) => {
+    let main = document.querySelector('.main');
+    var h = document.createElement('H3');
+    var t = document.createTextNode(text);
+    h.appendChild(t);
+    main.appendChild(h);
+}
+
+const checkRagamUser = async (ragamID) => {
+
+    let main = document.querySelector('.main');
+    main.innerHTML = '';
+
+    try {
+        user = await fetch("./ragam-users/" + MD5(ragamID) + ".json").then((res) => {
+            return res.json();
+        });
+    }
+    catch(e) {
+        addText("User not found");
+        return null;
+    }
+    return user;
+}
+
+const checkCAUser = async (caID) => {
+
+    let main = document.querySelector('.main');
+    main.innerHTML = '';
+
+    try {
+        user = await fetch("./ragam-ca/" + MD5(caID) + ".json").then((res) => {
+            return res.json();
+        });
+    }
+    catch(e) {
+        addText("User not found");
+        return null;
+    }
+    return user;
+}
 
 MD5 = function(e) {
     function h(a, b) {
@@ -68,57 +110,64 @@ MD5 = function(e) {
     return (p(a) + p(b) + p(c) + p(d)).toLowerCase()
 };
 
-const addText = (text) => {
+const addLink = (id) => {
     let main = document.querySelector('.main');
-    var h = document.createElement('H2');
-    var t = document.createTextNode(text);
-    h.appendChild(t);
-    main.appendChild(h);
-}
-
-const addLink = (id, text) => {
-    let main = document.querySelector('.main');
-    var h = document.createElement('H2');
-    var t = document.createTextNode(text);
+    var h = document.createElement('H3');
+    var t = document.createTextNode(id);
     h.appendChild(t);
     var anchor = document.createElement('a');
-	anchor.setAttribute('href', base + '/event.html?id=' + id + "&category=ragam21&event=" + text.replace(/ /g,'').toLowerCase());
+	anchor.setAttribute('href', base + '/user.html?id=' + id+"&category=ragam21");
     anchor.appendChild(h);
     main.appendChild(anchor);
     var enter = document.createElement('br');
     main.appendChild(enter);
 }
 
-const checkUser = async (ragamID) => {
+var button = document.getElementById('button')
+var ID = document.getElementById("ID"); // Get only the element.
+const urlParams = new URLSearchParams(window.location.search);
+const category = urlParams.get("category");
 
-    try {
-        user = await fetch("./ragam-users/" + MD5(ragamID) + ".json").then((res) => {
-            return res.json();
+window.onload = (event) => {
+    if(category === "ragam21") {
+        document.getElementById("title").innerHTML = "Ragam Certificates";
+        document.getElementById("ID").placeholder = "Ragam ID / Mail ID / Phone No.";
+    }
+    else if(category == "ca21") {
+        document.getElementById("title").innerHTML = "Campus Ambassador Certificates";
+        document.getElementById("ID").placeholder = "Ref ID / Mail ID / Phone No.";
+    }
+  };
+
+button.addEventListener("click", function(e) {
+    e.preventDefault();
+    var route = ID.value;
+    if(route.length === 0){
+        alert("Enter your ID");
+        return;
+    }
+    if(category === "ragam21") {
+        const user = checkRagamUser(route).then(user => {
+            if(user) {
+                const route = user[0].ragamId;
+                if(user.length < 2) {
+                    window.location.href = base + '/user.html?id=' + route + "&category" + category;
+                }
+                else {
+                    addText("Select your Ragam ID");
+                    for(i=0; i<user.length; i++) {
+                        addLink(user[i].ragamId);
+                    }
+                }
+            }
         });
     }
-    catch(e) {
-        addText("User not found");
-        return null;
+    else if(category === "ca21") {
+        const user = checkCAUser(route).then(user => {
+            if(user) {
+                window.location.href = base + '/event.html?id=' + user.refId + "&category=" + category + "&event=ca";
+            }
+        });
     }
-    return user;
-}
-
-window.onload = (e) => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
-    const user = checkUser(id).then(user => {
-        if(user) {
-            for(i=0; i<user.length; i++) {
-                for(j=0; j<user[i].events.length; j++) {
-                    addLink(id, user[i].events[j].name);
-                }
-                if(j==0) {
-                    addText("No events");
-                }
-            }    
-        }
-    });
-}
-
-
-
+    
+}, false);

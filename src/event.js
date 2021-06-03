@@ -175,15 +175,11 @@ const addText = (text) => {
   main.appendChild(h);
 };
 
-const generatePDF = async (name, college, position, event, eventName) => {
-  name = name.trim();
-  college = college.trim();
-  event = event.replace(/\([A-Z]*\)/, "").trim();
-
+const generateRagamPDF = async (name, college, position, event, category, eventName) => {
   let main = document.querySelector(".main");
 
   certificate =
-  eventName === "ragnarok"
+  category === "Ragnarok"
       ? await fetch("./certificates/cert-data/ragnarok.json").then((res) => {
           return res.json();
         })
@@ -194,7 +190,7 @@ const generatePDF = async (name, college, position, event, eventName) => {
   const { PDFDocument, rgb } = PDFLib;
 
   const exBytes =
-    eventName === "ragnarok"
+    category === "Ragnarok"
       ? await fetch("./certificates/cert-pdf/ragnarok.pdf").then((res) => {
           return res.arrayBuffer();
         })
@@ -229,7 +225,20 @@ const generatePDF = async (name, college, position, event, eventName) => {
     Third: "3rd",
   };
 
+  const titleCase = (str) => {
+    str = str.split(/[ .]+/)
+    for (var i = 0; i < str.length; i++) {
+      if(str[i].length > 2) {
+        str[i] = str[i].toLowerCase().charAt(0).toUpperCase() + str[i].slice(1); 
+      }
+    }
+    return str.join(' ');
+  }
+
   if (name != null) {
+    name = name.trim();
+    name = titleCase(name);
+
     firstPg.drawText(name, {
       size: certificate.name.fontSize,
       x: certificate.name.x - 0.2 * certificate.name.fontSize * name.length - (eventName === "ragnarok" && name.length>10 ? name.length * 3: 0),
@@ -244,6 +253,8 @@ const generatePDF = async (name, college, position, event, eventName) => {
   }
 
   if (college != null) {
+    college = college.trim();
+
     firstPg.drawText(college + " ,", {
       size: certificate.paragraph.fontSize,
       x: certificate.organisation.x - college.length * 0.22 * certificate.paragraph.fontSize,
@@ -271,7 +282,12 @@ const generatePDF = async (name, college, position, event, eventName) => {
     });
   }
 
-  if (event != null && eventName !== "ragnarok") {
+  if (event != null) {
+    event = event.replace("(H)", "(Hindi)");
+    event = event.replace("(T)", "(Telugu)");
+    event = event.replace("(M)", "(Malayalam)");
+    event = event.replace("(E)", "(English)");
+    event = event.replace(/\([A-Z]*\)/, "").trim();
     firstPg.drawText(event, {
       size: certificate.paragraph.fontSize,
       x: certificate.event.x - event.length * 0.22 * certificate.paragraph.fontSize,
@@ -284,13 +300,6 @@ const generatePDF = async (name, college, position, event, eventName) => {
       font: myFontSub,
     });
   }
-
-  //Adding Image
-
-//   const pngUrl = 'https://pdf-lib.js.org/assets/minions_banana_alpha.png'
-//   const pngImageBytes = await fetch(pngUrl).then((res) => res.arrayBuffer())
-//   const pngImage = await pdfDoc.embedPng(pngImageBytes)
-//   const pngDims = pngImage.scale(0.5)
 
   var qr = new QRious({
       value: window.location.href,
@@ -307,8 +316,6 @@ const generatePDF = async (name, college, position, event, eventName) => {
     width: 100,
     height: 100,
   })
-
-//   Adding image ends
 
   const uri = await pdfDoc.saveAsBase64({ dataUri: true });
 
@@ -331,53 +338,269 @@ const generatePDF = async (name, college, position, event, eventName) => {
   main.appendChild(enter);
 };
 
-const checkUser = async (ragamID) => {
+const checkRagamUser = async (ragamID) => {
+
+  let main = document.querySelector('.main');
+  main.innerHTML = '';
+
   try {
-    user = await fetch("./ragam-users/" + MD5(ragamID) + ".json").then(
-      (res) => {
-        return res.json();
-      }
-    );
-  } catch (e) {
-    addText("User not found");
-    return null;
+      user = await fetch("./ragam-users/" + MD5(ragamID) + ".json").then((res) => {
+          return res.json();
+      });
+  }
+  catch(e) {
+      addText("User not found");
+      return null;
   }
   return user;
+}
+
+const checkCAUser = async (caID) => {
+
+  let main = document.querySelector('.main');
+  main.innerHTML = '';
+
+  try {
+      user = await fetch("./ragam-ca/" + MD5(caID) + ".json").then((res) => {
+          return res.json();
+      });
+  }
+  catch(e) {
+      addText("User not found");
+      return null;
+  }
+  return user;
+}
+
+const generateCAPDF = async (name, college, position) => {
+  console.log(position);
+  let main = document.querySelector(".main");
+
+  certificate =
+  user.position <= 30 === "Ragnarok"
+      ? await fetch("./certificates/cert-data/ca-excellence.json").then((res) => {
+          return res.json();
+        })
+      : await fetch("./certificates/cert-data/ca-participation.json").then((res) => {
+          return res.json();
+        });
+
+  const { PDFDocument, rgb } = PDFLib;
+
+  const exBytes =
+  user.position <= 30 === "Ragnarok"
+      ? await fetch("./certificates/cert-pdf/ca-excellence.pdf").then((res) => {
+          return res.arrayBuffer();
+        })
+      : await fetch("./certificates/cert-pdf/ca-participation.pdf").then((res) => {
+          return res.arrayBuffer();
+        });
+
+  const exFont = await fetch("./fonts/" + certificate.name.fontName).then(
+    (res) => {
+      return res.arrayBuffer();
+    }
+  );
+
+  const exFontSub = await fetch(
+    "./fonts/" + certificate.paragraph.fontName
+  ).then((res) => {
+    return res.arrayBuffer();
+  });
+
+  const pdfDoc = await PDFDocument.load(exBytes);
+
+  pdfDoc.registerFontkit(fontkit);
+  const myFont = await pdfDoc.embedFont(exFont);
+  const myFontSub = await pdfDoc.embedFont(exFontSub);
+
+  const pages = pdfDoc.getPages();
+  const firstPg = pages[0];
+
+  var positionDict = {
+    1: "1st",
+    2: "2nd",
+    3: "3rd",
+    4: "4th",
+    5: "5th",
+    6: "6th",
+    7: "7th",
+    8: "8th",
+    9: "9th",
+    10: "10th",
+    11: "11th",
+    12: "12th",
+    13: "13th",
+    14: "14th",
+    15: "15th",
+    16: "16th",
+    17: "17th",
+    18: "18th",
+    19: "19th",
+    20: "20th",
+    21: "21st",
+    22: "22nd",
+    23: "23rd",
+    24: "24th",
+    25: "25th",
+    26: "26th",
+    27: "27th",
+    28: "28th",
+    29: "29th",
+    30: "30th",
+  };
+
+  const titleCase = (str) => {
+    str = str.split(/[ .]+/)
+    for (var i = 0; i < str.length; i++) {
+      if(str[i].length > 2) {
+        str[i] = str[i].toLowerCase().charAt(0).toUpperCase() + str[i].slice(1); 
+      }
+    }
+    return str.join(' ');
+  }
+
+  if (name != null) {
+    name = name.trim();
+    name = titleCase(name);
+
+    firstPg.drawText(name, {
+      size: certificate.name.fontSize,
+      x: certificate.name.x - 0.2 * certificate.name.fontSize * name.length - (eventName === "ragnarok" && name.length>10 ? name.length * 3: 0),
+      y: certificate.name.y,
+      color: rgb(
+        certificate.paragraph.fontColor.r,
+        certificate.paragraph.fontColor.g,
+        certificate.paragraph.fontColor.b
+      ),
+      font: myFont,
+    });
+  }
+
+  if (college != null) {
+    college = college.trim();
+
+    firstPg.drawText(college + " ,", {
+      size: certificate.paragraph.fontSize,
+      x: certificate.organisation.x - college.length * 0.22 * certificate.paragraph.fontSize,
+      y: certificate.organisation.y,
+      color: rgb(
+        certificate.paragraph.fontColor.r,
+        certificate.paragraph.fontColor.g,
+        certificate.paragraph.fontColor.b
+      ),
+      font: myFontSub,
+    });
+  }
+
+  if (position <= 30) {
+    firstPg.drawText(positionDict[position], {
+      size: certificate.paragraph.fontSize,
+      x: certificate.position.x,
+      y: certificate.position.y,
+      color: rgb(
+        certificate.paragraph.fontColor.r,
+        certificate.paragraph.fontColor.g,
+        certificate.paragraph.fontColor.b
+      ),
+      font: myFontSub,
+    });
+  }
+
+  var qr = new QRious({
+      value: window.location.href,
+      foreground: certificate.qrCode.foreground,
+      background: certificate.qrCode.background
+
+  })
+  qr = qr.toDataURL();
+  const qrImage = await pdfDoc.embedPng(qr)
+
+  firstPg.drawImage(qrImage, {
+    x: certificate.qrCode.x,
+    y: certificate.qrCode.y,
+    width: 100,
+    height: 100,
+  })
+
+  const uri = await pdfDoc.saveAsBase64({ dataUri: true });
+
+  var h = document.createElement("H2");
+  var t = document.createTextNode(event + " Certificate");
+  h.appendChild(t);
+  main.removeChild(main.lastElementChild);
+  main.appendChild(h);
+  var elem = document.createElement("img");
+  elem.setAttribute("src", "./static/img/download-icon.png");
+  elem.setAttribute("id", "download-button");
+  elem.setAttribute("height", "40");
+  elem.setAttribute("width", "40");
+  var anchor = document.createElement("a");
+  anchor.href = uri;
+  anchor.download = "Campus Ambassador Certificate.pdf";
+  anchor.appendChild(elem);
+  main.appendChild(anchor);
+  var enter = document.createElement("br");
+  main.appendChild(enter);
 };
+
 
 window.onload = (e) => {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
-  const name = urlParams.get("name");
-  const user = checkUser(id).then((user) => {
-    if (user) {
-      let main = document.querySelector(".main");
-      var h1 = document.createElement("H2");
-      var t1 = document.createTextNode("Loading your Certificate");
-      h1.appendChild(t1);
-      main.appendChild(h1);
-      for (i = 0; i < user.length; i++) {
-        for (j = 0; j < user[i].events.length; j++) {
-          if (user[i].events[j].name.replace(/ /g, "").toLowerCase() === name) {
-            if (user[i].events[j].hasCertificate) {
-              generatePDF(
-                user[i].name,
-                user[i].college,
-                user[i].events[j].status,
-                user[i].events[j].name,
-                name
-              );
-            } else {
-              main.removeChild(main.lastElementChild);
-              addText("No Certificate for " + user[i].events[j].name);
+  const category = urlParams.get("category");
+  const name = urlParams.get("event");
+  if(category === "ragam21") {
+    const user = checkRagamUser(id).then((user) => {
+      if (user) {
+        let main = document.querySelector(".main");
+        var h1 = document.createElement("H2");
+        var t1 = document.createTextNode("Loading your Certificate");
+        h1.appendChild(t1);
+        main.appendChild(h1);
+        for (i = 0; i < user.length; i++) {
+          for (j = 0; j < user[i].events.length; j++) {
+            if (user[i].events[j].name.replace(/ /g, "").toLowerCase() === name) {
+              if (user[i].events[j].hasCertificate) {
+                generateRagamPDF(
+                  user[i].name,
+                  user[i].college,
+                  user[i].events[j].status,
+                  user[i].events[j].name,
+                  user[i].events[j].category,
+                  name
+                );
+              } else {
+                main.removeChild(main.lastElementChild);
+                addText("No Certificate for " + user[i].events[j].name);
+              }
             }
           }
+          if (j === 0) {
+            main.removeChild(main.lastElementChild);
+            addText("No Certificates Available");
+          }
         }
-        if (j === 0) {
-          main.removeChild(main.lastElementChild);
-          addText("No Certificates Available");
+      }
+    })
+  }
+  else if(category === "ca21") {
+    const user = checkCAUser(id).then((user) => {
+      if (user) {
+        let main = document.querySelector(".main");
+        var h1 = document.createElement("H2");
+        var t1 = document.createTextNode("Loading your Certificate");
+        h1.appendChild(t1);
+        main.appendChild(h1);
+        if(user.position == -1) {
+          console.log("if");
+          addText("No Certificate Available");
+        }
+        else {
+          console.log("else");
+          generateCAPDF(user.name, user.college, user.position);
         }
       }
     }
-  });
+  )};
 };
