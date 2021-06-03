@@ -1,5 +1,5 @@
-// const base = "/Ragam-Certificate-Generator"
-const base =""
+const base = "/Ragam-Certificate-Generator"
+// const base =""
 // const base = "/certificates"
 
 button.addEventListener("click", function(e) {
