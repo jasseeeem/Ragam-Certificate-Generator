@@ -1,6 +1,6 @@
-const base = "/Ragam-Certificate-Generator"
+// const base = "/Ragam-Certificate-Generator"
 // const base =""
-// const base = "/certificates"
+const base = "/certificates"
 
 const addText = (text) => {
     let main = document.querySelector('.main');
