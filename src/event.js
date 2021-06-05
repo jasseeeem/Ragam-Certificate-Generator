@@ -255,7 +255,7 @@ const generateRagamPDF = async (name, college, position, event, category, eventN
   if (college != null) {
     college = college.trim();
 
-    firstPg.drawText(college + ",", {
+    firstPg.drawText("of " + college + ",", {
       size: certificate.paragraph.fontSize,
       x: certificate.organisation.x - college.length * 0.22 * certificate.paragraph.fontSize,
       y: certificate.organisation.y,
@@ -465,13 +465,13 @@ const generateCAPDF = async (name, college, position) => {
       font: myFont,
     });
   }
-
+  
   if (college != null) {
     college = college.trim();
 
-    firstPg.drawText(college + ",", {
+    firstPg.drawText("of " + college + ",", {
       size: certificate.paragraph.fontSize,
-      x: certificate.organisation.x - college.length * 0.22 * certificate.paragraph.fontSize,
+      x: certificate.organisation.x - (college.length+3) * 0.22 * certificate.paragraph.fontSize,
       y: certificate.organisation.y,
       color: rgb(
         certificate.paragraph.fontColor.r,
